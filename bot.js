@@ -31,6 +31,11 @@ async function mongo() {
   }
 }
 
+bot.launch().catch((error) => {
+  console.error("Error initializing Telegram bot:", error);
+  // Implement error handling logic here (e.g., retry, notification)
+});
+
 mongo();
 const activeChatId = {};
 
