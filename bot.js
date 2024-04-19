@@ -14,20 +14,24 @@ const API_URL = process.env.API_URL;
 const CURRENT_DATE = new Date();
 const ATLAS_URL = process.env.ATLAS_URL;
 const axios = require("axios");
-const x = false;
+
 async function mongo() {
-  if (x) return;
   try {
-    await mongoose.connect(ATLAS_URL);
-    console.log("MongoDB connection established");
-    x = true;
+    const connection = await mongoose.connect(ATLAS_URL);
+    console.log(
+      "MongoDB connection established:",
+      connection.connection.readyState
+    ); // Improved logging with connection state
+
+    // Add logic to handle successful connection here (e.g., initialize your Telegram bot)
   } catch (error) {
     console.error("MongoDB Connection Failed:", error.message);
+
+    // Implement robust error handling here (e.g., retry logic, error notification)
   }
 }
 
 mongo();
-
 const activeChatId = {};
 
 const ARMENIA_TIME = (time) => {
