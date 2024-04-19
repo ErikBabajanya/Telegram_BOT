@@ -3,7 +3,6 @@ const mongoose = require("mongoose");
 const transactionModel = require("./schema/transaction.schema");
 const TimeAgo = require("javascript-time-ago");
 const hy = require("javascript-time-ago/locale/hy");
-const _ = require("lodash");
 require("dotenv").config();
 
 TimeAgo.addLocale(hy);
