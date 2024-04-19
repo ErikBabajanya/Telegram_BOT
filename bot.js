@@ -292,6 +292,7 @@ bot.start(async (ctx) => {
     timeZone: "Asia/Yerevan",
   });
   activeChatId[chatId] = armenianDate;
+  console.log(activeChatId);
 });
 
 bot.on("text", async (ctx) => {
