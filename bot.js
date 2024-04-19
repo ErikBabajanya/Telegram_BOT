@@ -15,15 +15,14 @@ const CURRENT_DATE = new Date();
 const ATLAS_URL = process.env.ATLAS_URL;
 const axios = require("axios");
 
-async function mongo() {
+(async function mongo() {
   try {
     await mongoose.connect(ATLAS_URL);
     console.log("MongoDB connection established");
   } catch (error) {
     console.error("MongoDB Connection Failed:", error.message);
   }
-}
-mongo();
+})();
 
 const activeChatId = {};
 
