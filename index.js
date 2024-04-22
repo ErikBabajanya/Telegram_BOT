@@ -317,8 +317,11 @@ bot.on("text", async (ctx) => {
   }
 });
 
-bot.launch();
-
 bot.on("polling_error", (error) => {
   console.error("Polling error:", error);
 });
+
+bot.launch();
+
+process.once("SIGINT", () => bot.stop("SIGINT"));
+process.once("SIGTERM", () => bot.stop("SIGTERM"));
