@@ -167,6 +167,7 @@ async function transactions() {
         };
         const existingTransactions = await transactionModel.find({
           wallet: item.attributes.tx_from_address,
+          date: { $gt: lastTransactionDate },
         });
 
         if (existingTransactions.length > 0) {
