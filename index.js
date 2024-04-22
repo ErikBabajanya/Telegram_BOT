@@ -281,7 +281,9 @@ let mongoConnection;
 
 async function mongo() {
   try {
-    mongoConnection = await mongoose.connect(ATLAS_URL);
+    mongoConnection = await mongoose.connect(ATLAS_URL, {
+      bufferTimeoutMs: 30000,
+    });
     console.log(
       "MongoDB connection established:",
       mongoConnection.connection.readyState
