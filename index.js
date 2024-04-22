@@ -1,4 +1,3 @@
-const { Telegraf, Markup } = require("telegraf");
 const mongoose = require("mongoose");
 const transactionModel = require("./schema/transaction.schema");
 const TimeAgo = require("javascript-time-ago");
@@ -6,6 +5,9 @@ const hy = require("javascript-time-ago/locale/hy");
 const ARMENIA_TIME = require("./util/armenian_time");
 require("dotenv").config();
 const bot = require("./telegramBot");
+
+const port = 3000;
+const webhookDomain = "telegram-bot-8wn6.vercel.app";
 
 TimeAgo.addLocale(hy);
 
@@ -323,7 +325,13 @@ bot.on("polling_error", (error) => {
   console.error("Polling error:", error);
 });
 
-bot.launch();
+// bot.launch();
+
+bot
+  .launch({ webhook: { domain: webhookDomain, port: port } })
+  .then(() => console.log("Webhook bot listening on port", port));
+
+// app.listen(port, () => console.log("Listening on port", port));
 
 process.once("SIGINT", () => bot.stop("SIGINT"));
 process.once("SIGTERM", () => bot.stop("SIGTERM"));
