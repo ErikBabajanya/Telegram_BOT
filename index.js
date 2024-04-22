@@ -20,19 +20,27 @@ const axios = require("axios");
 const API_URL = process.env.API_URL;
 console.log(CURRENT_DATE);
 
-async function mongo() {
-  try {
-    const connection = await mongoose.connect(ATLAS_URL);
-    console.log(
-      "MongoDB connection established:",
-      connection.connection.readyState
-    );
-  } catch (error) {
-    console.error("MongoDB Connection Failed:", error.message);
-  }
+if (!ATLAS_URL) {
+  throw new Error("Please define the MONGODB_URI environment variable");
 }
 
-mongo();
+let cached = global.mongo;
+
+if (!cached) {
+  cached = global.mongo = connectToDatabase();
+}
+async function connectToDatabase() {
+  try {
+    await mongoose.connect(ATLAS_URL, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+    return mongoose;
+  } catch (error) {
+    console.error("MongoDB connection error:", error);
+    throw error; // Re-throw the error for proper handling
+  }
+}
 const activeChatId = {};
 
 async function fetchData() {
