@@ -20,19 +20,6 @@ const axios = require("axios");
 const API_URL = process.env.API_URL;
 console.log(CURRENT_DATE);
 
-async function mongo() {
-  try {
-    const connection = await mongoose.connect(ATLAS_URL);
-    console.log(
-      "MongoDB connection established:",
-      connection.connection.readyState
-    );
-  } catch (error) {
-    console.error("MongoDB Connection Failed:", error.message);
-  }
-}
-
-mongo();
 const activeChatId = {};
 
 async function fetchData() {
@@ -289,6 +276,23 @@ async function transactions() {
   }
 }
 transactions();
+
+let mongoConnection;
+
+async function mongo() {
+  try {
+    mongoConnection = await mongoose.connect(ATLAS_URL);
+    console.log(
+      "MongoDB connection established:",
+      mongoConnection.connection.readyState
+    );
+  } catch (error) {
+    console.error("MongoDB Connection Failed:", error.message);
+  }
+}
+
+mongo();
+
 let loopInterval = 2000;
 
 async function mainLoop() {
