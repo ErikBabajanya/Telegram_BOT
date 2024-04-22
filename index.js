@@ -20,6 +20,19 @@ const axios = require("axios");
 const API_URL = process.env.API_URL;
 console.log(CURRENT_DATE);
 
+async function mongo() {
+  try {
+    const connection = await mongoose.connect(ATLAS_URL);
+    console.log(
+      "MongoDB connection established:",
+      connection.connection.readyState
+    );
+  } catch (error) {
+    console.error("MongoDB Connection Failed:", error.message);
+  }
+}
+
+mongo();
 const activeChatId = {};
 
 async function fetchData() {
@@ -144,6 +157,7 @@ async function getAccount(account_id) {
 async function transactions() {
   try {
     const data = await fetchData();
+    console.log(111);
     if (!data) return;
     data.reverse();
     for (const item of data) {
@@ -167,7 +181,6 @@ async function transactions() {
         };
         const existingTransactions = await transactionModel.find({
           wallet: item.attributes.tx_from_address,
-          date: { $gt: lastTransactionDate },
         });
 
         if (existingTransactions.length > 0) {
@@ -277,25 +290,6 @@ async function transactions() {
   }
 }
 transactions();
-
-let mongoConnection;
-
-async function mongo() {
-  try {
-    mongoConnection = await mongoose.connect(ATLAS_URL, {
-      bufferTimeoutMs: 30000,
-    });
-    console.log(
-      "MongoDB connection established:",
-      mongoConnection.connection.readyState
-    );
-  } catch (error) {
-    console.error("MongoDB Connection Failed:", error.message);
-  }
-}
-
-mongo();
-
 let loopInterval = 2000;
 
 async function mainLoop() {
