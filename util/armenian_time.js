@@ -1,5 +1,14 @@
-const ARMENIA_TIME = (dateString) => {
-  const date = new Date(dateString);
+const ARMENIA_TIME = () => {
+  // Set the time zone to Armenia
+  const armeniaTimeZone = "Asia/Yerevan";
+
+  // Get the current date and time in the Armenia time zone
+  const currentDate = new Date().toLocaleString("en-US", {
+    timeZone: armeniaTimeZone,
+  });
+
+  // Convert currentDate to a Date object
+  const date = new Date(currentDate);
 
   // Array of month names
   const months = [
@@ -17,11 +26,9 @@ const ARMENIA_TIME = (dateString) => {
     "December",
   ];
 
-  // Get the month and day
+  // Get the month, day, hours, minutes, and AM/PM
   const month = months[date.getMonth()];
   const day = date.getDate();
-
-  // Get the time
   const hours = date.getHours();
   const minutes = date.getMinutes();
   const ampm = hours >= 12 ? "PM" : "AM";
