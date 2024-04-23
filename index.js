@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const transactionModel = require("./schema/transaction.schema");
 const TimeAgo = require("javascript-time-ago");
 const hy = require("javascript-time-ago/locale/hy");
-const ARMENIA_TIME = require("./util/armenian_time");
+const { ARMENIA_TIME, START_TIME } = require("./util/armenian_time");
 require("dotenv").config();
 const bot = require("./telegramBot");
 
@@ -14,7 +14,7 @@ TimeAgo.addLocale(hy);
 // const BOT_ID = process.env.BOT_ID;
 // const bot = new Telegraf(BOT_ID);
 const GROUPP_CHAT_ID = process.env.GROUPP_CHAT_ID;
-const CURRENT_DATE = ARMENIA_TIME(new Date());
+const CURRENT_DATE = START_TIME(new Date());
 const ATLAS_URL = process.env.ATLAS_URL;
 const axios = require("axios");
 const API_URL = process.env.API_URL;
@@ -236,7 +236,7 @@ mainLoop();
 
 bot.start(async (ctx) => {
   const chatId = ctx.chat.id;
-  const armenianDate = ARMENIA_TIME(new Date());
+  const armenianDate = START_TIME(new Date());
   // const armenianDate = new Date().toLocaleString("en-US", {
   //   timeZone: "Asia/Yerevan",
   // });
