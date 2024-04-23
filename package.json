@@ -12,9 +12,11 @@
   "dependencies": {
     "axios": "^1.6.8",
     "dotenv": "^16.4.5",
+    "forever-monitor": "^3.0.3",
     "javascript-time-ago": "^2.5.10",
     "lodash": "^4.17.21",
     "mongoose": "^8.3.2",
+    "nvm": "^0.0.4",
     "telegraf": "^4.16.3"
   },
   "engines": {

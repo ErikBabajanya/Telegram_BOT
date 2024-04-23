@@ -117,10 +117,10 @@ async function sendNewTransaction(walletAddress) {
 
     const activeChats = Object.keys(activeChatId);
     console.log(activeChatId);
-    // if (new Date(lastTransactionDate) > new Date(CURRENT_DATE)) {
-    //   console.log(GROUPP_CHAT_ID);
-    //   await bot.telegram.sendMessage(GROUPP_CHAT_ID, message);
-    // }
+    if (new Date(lastTransactionDate) > new Date(CURRENT_DATE)) {
+      console.log(GROUPP_CHAT_ID);
+      await bot.telegram.sendMessage(GROUPP_CHAT_ID, message);
+    }
     activeChats.map(async (key) => {
       console.log(key);
       if (new Date(lastTransactionDate) > new Date(activeChatId[key])) {
@@ -165,7 +165,6 @@ async function getAccount(account_id) {
 async function transactions() {
   try {
     const data = await fetchData();
-    console.log(111);
     if (!data) return;
     data.reverse();
     for (const item of data) {
@@ -334,13 +333,13 @@ bot.on("polling_error", (error) => {
   console.error("Polling error:", error);
 });
 
-// bot.launch();
+bot.launch();
 
-bot
-  .launch({ webhook: { domain: webhookDomain, port: port } })
-  .then(() => console.log("Webhook bot listening on port", port));
+// bot
+//   .launch({ webhook: { domain: webhookDomain, port: port } })
+//   .then(() => console.log("Webhook bot listening on port", port));
 
 // app.listen(port, () => console.log("Listening on port", port));
 
-process.once("SIGINT", () => bot.stop("SIGINT"));
-process.once("SIGTERM", () => bot.stop("SIGTERM"));
+// process.once("SIGINT", () => bot.stop("SIGINT"));
+// process.once("SIGTERM", () => bot.stop("SIGTERM"));
