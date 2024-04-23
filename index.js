@@ -54,80 +54,6 @@ async function fetchData() {
   }
 }
 
-async function sendNewTransaction(walletAddress) {
-  try {
-    const myWallet = await transactionModel.find({ wallet: walletAddress });
-    console.log(myWallet);
-    const wallet = myWallet[0];
-    const lastTransactionDate =
-      wallet.transactions[wallet.transactions.length - 1].date;
-    console.log(wallet.wallet, 11);
-    let x = "";
-    let b = "";
-    let s = "";
-    console.log(wallet);
-    wallet.transactions.filter((transaction) => {
-      let type = "";
-
-      if (transaction.type === "buy") {
-        type = "✅";
-      } else {
-        type = "❌";
-      }
-
-      return (x =
-        x +
-        `\n` +
-        `💲 Amount: ${transaction.amount}\n` +
-        `📅 date: ${transaction.date}\n` +
-        `${type} type: ${transaction.type}\n\n`);
-    });
-    let fishEmoji = "";
-    if (wallet.transactions[wallet.transactions.length - 1].amount > 999) {
-      let g = wallet.transactions[wallet.transactions.length - 1].amount / 1000;
-      for (let i = 0; i < Math.floor(g); i++) {
-        fishEmoji = fishEmoji + "🐟";
-      }
-    }
-    console.log(x);
-
-    console.log(wallet.intervalBuy);
-    console.log(wallet.intervalSell);
-    if (wallet.intervalBuy.length) {
-      wallet.intervalBuy.filter((interval, index) => {
-        b = b + `${interval}\n`;
-      });
-    }
-    console.log(b, 88);
-    if (wallet.intervalSell.length) {
-      wallet.intervalSell.filter((interval) => {
-        s = s + interval`\n`;
-      });
-    }
-    const message = `https://tonviewer.com/${wallet.wallet}\n💰 Balance: TON ${
-      wallet.balance
-    } = USD (${
-      wallet.balance * wallet.price
-    })\n${fishEmoji}\n${x}📈 intervalBuy: ${b}\n📉 intervalSell: ${s}\nbuy count: ${
-      wallet.buyCount
-    }\nsell count: ${wallet.sellCount}`;
-
-    const activeChats = Object.keys(activeChatId);
-    console.log(activeChatId);
-    if (new Date(lastTransactionDate) > new Date(CURRENT_DATE)) {
-      console.log(GROUPP_CHAT_ID);
-      await bot.telegram.sendMessage(GROUPP_CHAT_ID, message);
-    }
-    activeChats.map(async (key) => {
-      console.log(key);
-      if (new Date(lastTransactionDate) > new Date(activeChatId[key])) {
-        await bot.telegram.sendMessage(key, message);
-      }
-    });
-  } catch (error) {
-    console.error("Error sending message:", error);
-  }
-}
 let timeoutId = null;
 
 async function getAccount(account_id) {
@@ -317,6 +243,81 @@ bot.start(async (ctx) => {
   activeChatId[chatId] = armenianDate;
   console.log(activeChatId);
 });
+
+async function sendNewTransaction(walletAddress) {
+  try {
+    const myWallet = await transactionModel.find({ wallet: walletAddress });
+    console.log(myWallet);
+    const wallet = myWallet[0];
+    const lastTransactionDate =
+      wallet.transactions[wallet.transactions.length - 1].date;
+    console.log(wallet.wallet, 11);
+    let x = "";
+    let b = "";
+    let s = "";
+    console.log(wallet);
+    wallet.transactions.filter((transaction) => {
+      let type = "";
+
+      if (transaction.type === "buy") {
+        type = "✅";
+      } else {
+        type = "❌";
+      }
+
+      return (x =
+        x +
+        `\n` +
+        `💲 Amount: ${transaction.amount}\n` +
+        `📅 date: ${transaction.date}\n` +
+        `${type} type: ${transaction.type}\n\n`);
+    });
+    let fishEmoji = "";
+    if (wallet.transactions[wallet.transactions.length - 1].amount > 999) {
+      let g = wallet.transactions[wallet.transactions.length - 1].amount / 1000;
+      for (let i = 0; i < Math.floor(g); i++) {
+        fishEmoji = fishEmoji + "🐟";
+      }
+    }
+    console.log(x);
+
+    console.log(wallet.intervalBuy);
+    console.log(wallet.intervalSell);
+    if (wallet.intervalBuy.length) {
+      wallet.intervalBuy.filter((interval, index) => {
+        b = b + `${interval}\n`;
+      });
+    }
+    console.log(b, 88);
+    if (wallet.intervalSell.length) {
+      wallet.intervalSell.filter((interval) => {
+        s = s + interval`\n`;
+      });
+    }
+    const message = `https://tonviewer.com/${wallet.wallet}\n💰 Balance: TON ${
+      wallet.balance
+    } = USD (${
+      wallet.balance * wallet.price
+    })\n${fishEmoji}\n${x}📈 intervalBuy: ${b}\n📉 intervalSell: ${s}\nbuy count: ${
+      wallet.buyCount
+    }\nsell count: ${wallet.sellCount}`;
+
+    const activeChats = Object.keys(activeChatId);
+    console.log(activeChatId);
+    if (new Date(lastTransactionDate) > new Date(CURRENT_DATE)) {
+      console.log(GROUPP_CHAT_ID);
+      await bot.telegram.sendMessage(GROUPP_CHAT_ID, message);
+    }
+    activeChats.map(async (key) => {
+      console.log(key);
+      if (new Date(lastTransactionDate) > new Date(activeChatId[key])) {
+        await bot.telegram.sendMessage(key, message);
+      }
+    });
+  } catch (error) {
+    console.error("Error sending message:", error);
+  }
+}
 
 bot.on("text", async (ctx) => {
   const messageText = ctx.message.text;
