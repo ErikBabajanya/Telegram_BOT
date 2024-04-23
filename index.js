@@ -31,10 +31,7 @@ if (!cached) {
 }
 async function connectToDatabase() {
   try {
-    await mongoose.connect(ATLAS_URL, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
+    await mongoose.connect(ATLAS_URL);
     return mongoose;
   } catch (error) {
     console.error("MongoDB connection error:", error);
