@@ -124,7 +124,7 @@ async function transactions() {
             const newTransactionTime = new Date(transaction.date);
             let lastSellTransaction;
             let lastBuyTransaction;
-            if (item.attributes.type === "sell") {
+            if (item.attributes.kind === "sell") {
               console.log(1);
               for (
                 let i = firstTransaction.transactions.length - 1;
