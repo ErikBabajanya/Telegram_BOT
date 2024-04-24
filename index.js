@@ -291,7 +291,7 @@ async function sendNewTransaction(walletAddress) {
     console.log(b, 88);
     if (wallet.intervalSell.length) {
       wallet.intervalSell.filter((interval) => {
-        s = s + interval`\n`;
+        s = s + `${interval}\n`;
       });
     }
     const message = `https://tonviewer.com/${wallet.wallet}\n💰 Balance: TON ${
